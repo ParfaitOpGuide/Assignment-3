@@ -3,13 +3,13 @@
 
 	OrthoCamera::OrthoCamera(Model* Object, glm::vec3 worldUp) {
 		//init camera pos
-		this->cameraPos = glm::vec3(0, 0, 0.01);
+		this->cameraPos = glm::vec3(0, 0, -0.01);
 
 		this->projectionMatrix = glm::ortho(
 			-20.f, //Left
 			20.f,//Right
-			-20.f,//Bot
-			20.f,//Top
+			20.f,//Bot
+			-20.f,//Top
 			-20.f,//Near
 			20.f //Far
 		);

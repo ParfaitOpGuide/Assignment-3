@@ -133,7 +133,7 @@ int main(void)
 	vecShaders.push_back(Shader1);
 	//create objects and pass the path to the things needed for it specifically, obj first then tex, then normal if needed
 	
-	MainModel = new Model3D(window, { 3,0, 0 }, Shader1->shaderProg, "3D/sphere.obj", "3D/sphere.jpg", 4.f);
+	MainModel = new Model3D(window, { 0,-3, 0 }, Shader1->shaderProg, "3D/sphere.obj", "3D/sphere.jpg", 4.f);
 
 
 	//ThirdPerson = new ThirdPersonCamera(MainModel, worldUp, height, width);
@@ -205,6 +205,9 @@ int main(void)
 	auto prev_time = curr_time;
 	std::chrono::nanoseconds curr_ns(0);
 
+	MainModel->Acceleration = P6::MyVector (0, -10, 0);
+	MainModel->Velocity = P6::MyVector (1, 10, 0);
+
 	/* Loop until the user closes the window */
 	while (!glfwWindowShouldClose(window) && !close)
 	{
@@ -220,20 +223,15 @@ int main(void)
 		if (curr_ns >= timestep) {
 			//nano to millie
 			auto ms = std::chrono::duration_cast<std::chrono::milliseconds>(curr_ns);
-			std::cout << "MS: " << (float)ms.count() << std::endl;
 			//reset
 			curr_ns -= curr_ns;
 
-			//sample.y-=0.01;
+			MainModel->Update((float)ms.count()/1000);
 		}
 		//end clock
 
 		/* Render here */
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-		MainModel->x = sample.x;
-		MainModel->y = sample.y;
-		MainModel->z = sample.z;
 
 		//processes events depending on camtype
 	//	vecCameras[camType]->processEvents({ -2 * vecModels[0]->x,  -2 * vecModels[0]->y, -2*vecModels[0]->z }, MainModel->objDir);

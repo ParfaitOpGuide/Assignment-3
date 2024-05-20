@@ -53,9 +53,6 @@ void Model3D::draw(glm::mat4 identity_matrix4,
 	//scale
 	transformation_matrix = glm::scale(transformation_matrix, glm::vec3(this->scale, this->scale, this->scale));
 
-	if (-this->y > 0)
-		this->y = 0;
-
 	this->objDir = { transformation_matrix[2][0], transformation_matrix[2][1], transformation_matrix[2][2] };
 	unsigned int projectionLoc = glGetUniformLocation(shaderProg, "projection");
 	glUniformMatrix4fv(projectionLoc, 1, GL_FALSE, glm::value_ptr(Camera->projectionMatrix));

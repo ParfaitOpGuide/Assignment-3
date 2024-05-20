@@ -431,11 +431,14 @@ void Model::explodeAndDie() {
 }
 
 void Model::UpdatePosition(float time) {
-	//(this->x, this->y, this->z)  =  
+	this->x += this->Velocity.x * time + (0.5f * this->Acceleration.x * (time * time));
+	this->y += this->Velocity.y * time + (0.5f * this->Acceleration.y * (time * time));
+	this->z += this->Velocity.z * time + (0.5f * this->Acceleration.z * (time * time));
+	std::cout << this->x;
 }
 
 void Model::UpdateVelocity(float time) {
-	this->Velocity = this->Velocity.Add(this->Acceleration.ScalarMult(time));
+	this->Velocity = this->Velocity + (this->Acceleration * time);
 }
 
 void Model::Update(float time) {
