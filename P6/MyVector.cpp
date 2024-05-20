@@ -17,6 +17,42 @@ MyVector MyVector::Direction() {
 	return { c1,c2,c3 };
 }
 
+MyVector MyVector::operator+ (const int n) { return MyVector(this->x + n, this->y + n, this->z + n); }
+MyVector MyVector::operator+ (const float f) { return MyVector(this->x + f, this->y + f, this->z + f); }
+MyVector MyVector::operator+= (const int num) { return MyVector(this->x += num, this->y += num, this->z += num); }
+MyVector MyVector::operator+= (const float f) { return MyVector(this->x += f, this->y += f, this->z += f); }
+
+MyVector MyVector::operator+ (const MyVector v) { return MyVector(this->x + v.x, this->y + v.y, this->z + v.z); }
+MyVector MyVector::operator+= (const MyVector v) { return MyVector(this->x += v.x, this->y += v.y, this->z += v.z); }
+
+MyVector MyVector::operator- (const int n) { return MyVector(this->x - n, this->y - n, this->z - n); }
+MyVector MyVector::operator- (const float f) { return MyVector(this->x - f, this->y - f, this->z - f); }
+MyVector MyVector::operator-= (const int num) { return MyVector(this->x -= num, this->y -= num, this->z -= num); }
+MyVector MyVector::operator-= (const float f) { return MyVector(this->x -= f, this->y -= f, this->z -= f); }
+
+MyVector MyVector::operator- (const MyVector v) { return MyVector(this->x - v.x, this->y - v.y, this->z - v.z); }
+MyVector MyVector::operator-= (const MyVector v) { return MyVector(this->x -= v.x, this->y -= v.y, this->z -= v.z); }
+
+//scalar multiplication
+MyVector MyVector::operator* (const int n) { return MyVector(this->x * n, this->y * n, this->z * n); }
+MyVector MyVector::operator* (const float f) { return MyVector(this->x * f, this->y * f, this->z * f); }
+MyVector MyVector::operator*= (const int num) { return MyVector(this->x *= num, this->y *= num, this->z *= num); }
+MyVector MyVector::operator*= (const float f) { return MyVector(this->x *= f, this->y *= f, this->z *= f); }
+
+//component product
+MyVector MyVector::operator* (const MyVector v) { return MyVector(this->x * v.x, this->y * v.y, this->z * v.z); }
+MyVector MyVector::operator*= (const MyVector v) { return MyVector(this->x *= v.x, this->y *= v.y, this->z *= v.z); }
+
+MyVector MyVector::operator/ (const int n) { return MyVector(this->x / n, this->y / n, this->z / n); }
+MyVector MyVector::operator/ (const float f) { return MyVector(this->x / f, this->y / f, this->z / f); }
+MyVector MyVector::operator/= (const int num) { return MyVector(this->x /= num, this->y /= num, this->z /= num); }
+MyVector MyVector::operator/= (const float f) { return MyVector(this->x /= f, this->y /= f, this->z /= f); }
+
+MyVector MyVector::operator/ (const MyVector v) { return MyVector(this->x / v.x, this->y / v.y, this->z / v.z); }
+MyVector MyVector::operator/= (const MyVector v) { return MyVector(this->x /= v.x, this->y /= v.y, this->z /= v.z); }
+
+MyVector::operator glm::vec3() const { return glm::vec3(x, y, z); }
+
 MyVector MyVector::Add(MyVector b) {
 	this->x += b.x;
 	this->y += b.y;
