@@ -435,7 +435,7 @@ void Model::UpdatePosition(float time) {
 }
 
 void Model::UpdateVelocity(float time) {
-	//this->Velocity = this->Velocity + (this->Acceleration * time);
+	this->Velocity = this->Velocity.Add(this->Acceleration.ScalarMult(time));
 }
 
 void Model::Update(float time) {
