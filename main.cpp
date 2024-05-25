@@ -198,15 +198,26 @@ int main(void)
 
 	P6::MyVector sample(0, 0, 0);
 	
+MainModel->Acceleration = P6::MyVector (0, -50, 0);
+	float velX, velY, velZ;
+	std::cout << "Velocity:\nX: ";
+	std::cin >> velX;
+	std::cout << "Y: ";
+	std::cin >> velY;
+	std::cout << "Y: ";
+	std::cin >> velZ;
 
+
+	MainModel->Velocity = P6::MyVector (velX, velY, velZ);
 	//clock and var
 	using clock = std::chrono::high_resolution_clock;
 	auto curr_time = clock::now();
 	auto prev_time = curr_time;
 	std::chrono::nanoseconds curr_ns(0);
 
-	MainModel->Acceleration = P6::MyVector (0, -10, 0);
-	MainModel->Velocity = P6::MyVector (1, 10, 0);
+	
+
+	
 
 	/* Loop until the user closes the window */
 	while (!glfwWindowShouldClose(window) && !close)

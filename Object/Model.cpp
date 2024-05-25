@@ -434,7 +434,7 @@ void Model::UpdatePosition(float time) {
 	this->x += this->Velocity.x * time + (0.5f * this->Acceleration.x * (time * time));
 	this->y += this->Velocity.y * time + (0.5f * this->Acceleration.y * (time * time));
 	this->z += this->Velocity.z * time + (0.5f * this->Acceleration.z * (time * time));
-	std::cout << this->x;
+	std::cout << this->y << std::endl;
 }
 
 void Model::UpdateVelocity(float time) {

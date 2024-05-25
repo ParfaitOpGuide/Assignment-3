@@ -22,6 +22,7 @@ public:
 
 	glm::vec3 objDir;
 	float pitch, yaw;
+	bool endFlag;
 
 	Model3D(GLFWwindow* window, glm::vec3 vecPos, GLuint shaderProg, std::string objStr, std::string texStr, std::string normStr, float scale);
 	Model3D(GLFWwindow* window, glm::vec3 vecPos, GLuint shaderProg, std::string objStr, std::string texStr, float scale);
