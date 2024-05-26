@@ -3,7 +3,7 @@
 #include <iostream>
 #include <string>
 #include <chrono>
-
+#include <conio.h>
 //GLM HEADERS
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
@@ -134,7 +134,7 @@ int main(void)
 	//create objects and pass the path to the things needed for it specifically, obj first then tex, then normal if needed
 
 	//model set, -8 is screen edge
-	MainModel = new Model3D(window, { 0,-300, 0 }, Shader1->shaderProg, "3D/sphere.obj", "3D/sphere.jpg", 20.f);
+	MainModel = new Model3D(window, { 0,-280, 0 }, Shader1->shaderProg, "3D/sphere.obj", "3D/sphere.jpg", 20.f);
 
 
 	//ThirdPerson = new ThirdPersonCamera(MainModel, worldUp, height, width);
@@ -224,7 +224,7 @@ int main(void)
 	bool endFlag = false; //flags that check that the ball has entered the screen, then hit the ground
 
 	/* Loop until the user closes the window */
-	while (!glfwWindowShouldClose(window) && !close)
+	while (!glfwWindowShouldClose(window) && !close && !printFlag)
 	{
 		//get current time
 		curr_time = clock::now();
@@ -236,7 +236,7 @@ int main(void)
 		curr_ns += dur;
 
 		if (curr_ns >= timestep && !endFlag) {
-			if (MainModel->y >= -300 && !startFlag) {
+			if (MainModel->y >= -280 && !startFlag) {
 				startFlag = true;
 			}
 
@@ -248,7 +248,7 @@ int main(void)
 
 			MainModel->Update((float)ms.count() / 1000);
 			
-			if (MainModel->y <= -300 && startFlag) {
+			if (MainModel->y <= -280 && startFlag) {
 				auto end_time = clock::now();
 				
 				if (!printFlag) {
@@ -256,10 +256,9 @@ int main(void)
 					printFlag = true;
 				}
 
-				MainModel->y = -300;
+				MainModel->y = -280;
 				MainModel->Acceleration = P6::MyVector(0, 0, 0);
 				MainModel->Velocity = P6::MyVector(0, 0, 0);
-
 
 			}
 		}
@@ -300,5 +299,8 @@ int main(void)
 
 
 	glfwTerminate();
+	std::cout << "\nPress any key to end the program: ";
+	getch();
+
 	return 0;
 }
