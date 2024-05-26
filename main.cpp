@@ -134,7 +134,7 @@ int main(void)
 	//create objects and pass the path to the things needed for it specifically, obj first then tex, then normal if needed
 
 	//model set, -8 is screen edge
-	MainModel = new Model3D(window, { 0,-12, 0 }, Shader1->shaderProg, "3D/sphere.obj", "3D/sphere.jpg", 4.f);
+	MainModel = new Model3D(window, { 0,-300, 0 }, Shader1->shaderProg, "3D/sphere.obj", "3D/sphere.jpg", 20.f);
 
 
 	//ThirdPerson = new ThirdPersonCamera(MainModel, worldUp, height, width);
@@ -174,6 +174,8 @@ int main(void)
 	/* Make the window's context current */
 	glfwMakeContextCurrent(window);
 	gladLoadGL();
+
+	glViewport(0, 0, width, height);
 
 
 	//set the callback function to the window
@@ -234,7 +236,7 @@ int main(void)
 		curr_ns += dur;
 
 		if (curr_ns >= timestep && !endFlag) {
-			if (MainModel->y >= -8 && !startFlag) {
+			if (MainModel->y >= -300 && !startFlag) {
 				startFlag = true;
 			}
 
@@ -245,8 +247,8 @@ int main(void)
 			curr_ns -= curr_ns;
 
 			MainModel->Update((float)ms.count() / 1000);
-
-			if (MainModel->y <= -8 && startFlag) {
+			
+			if (MainModel->y <= -300 && startFlag) {
 				auto end_time = clock::now();
 				
 				if (!printFlag) {
@@ -254,7 +256,7 @@ int main(void)
 					printFlag = true;
 				}
 
-				MainModel->y = -8;
+				MainModel->y = -300;
 				MainModel->Acceleration = P6::MyVector(0, 0, 0);
 				MainModel->Velocity = P6::MyVector(0, 0, 0);
 
