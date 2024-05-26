@@ -11,8 +11,6 @@ Model3D::Model3D(GLFWwindow* window, glm::vec3 vecPos, GLuint shaderProg, std::s
 	//pitch is vert yaw is hori
 	this->pitch = 0;
 	this->yaw = 90;
-
-	this->endFlag = false;
 }
 
 Model3D::Model3D(GLFWwindow* window, glm::vec3 vecPos, GLuint shaderProg, std::string objStr, std::string texStr, float scale)
@@ -24,8 +22,6 @@ Model3D::Model3D(GLFWwindow* window, glm::vec3 vecPos, GLuint shaderProg, std::s
 
 	this->pitch = 0;
 	this->yaw = 90;
-
-	this->endFlag = false;
 }
 
 void Model3D::processEvents(glm::mat4 identity_matrix4,

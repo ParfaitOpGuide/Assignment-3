@@ -110,7 +110,7 @@ int main(void)
 	float width = 600.0f, height = 600.0f;
 
 	/* Create a windowed mode window and its OpenGL context */
-	window = glfwCreateWindow(width, height, "Agasen", NULL, NULL);
+	window = glfwCreateWindow(width, height, "Agasen, Torreno", NULL, NULL);
 	if (!window)
 	{
 		glfwTerminate();
@@ -132,14 +132,15 @@ int main(void)
 	vecShaders.push_back(ShaderNormals);
 	vecShaders.push_back(Shader1);
 	//create objects and pass the path to the things needed for it specifically, obj first then tex, then normal if needed
-	
-	MainModel = new Model3D(window, { 0,-3, 0 }, Shader1->shaderProg, "3D/sphere.obj", "3D/sphere.jpg", 4.f);
+
+	//model set, -8 is screen edge
+	MainModel = new Model3D(window, { 0,-12, 0 }, Shader1->shaderProg, "3D/sphere.obj", "3D/sphere.jpg", 4.f);
 
 
 	//ThirdPerson = new ThirdPersonCamera(MainModel, worldUp, height, width);
 	//FirstPerson = new FirstPersonCamera(MainModel, worldUp, height, width);
 	Orthographic = new OrthoCamera(MainModel, worldUp);
-	
+
 	//Load shader file into a strin steam
 	std::fstream vertSrc("Shaders/sampleNew.vert");
 	std::stringstream vertBuff;
@@ -167,8 +168,8 @@ int main(void)
 	const char* f = fragS.c_str();
 	std::string skyboxFragS = skyboxFragBuff.str();
 	const char* sky_f = skyboxFragS.c_str();
-	
-	
+
+
 
 	/* Make the window's context current */
 	glfwMakeContextCurrent(window);
@@ -177,7 +178,7 @@ int main(void)
 
 	//set the callback function to the window
 	glfwSetKeyCallback(window, Key_Callback);
-	
+
 
 	//blend yo mama
 	glEnable(GL_BLEND);
@@ -187,37 +188,38 @@ int main(void)
 
 	//camera stuff gets pushed into the vector
 	vecCameras.push_back(Orthographic);
-	
+
 	//vecCameras.push_back(ThirdPerson);
 	//vecCameras.push_back(FirstPerson);
-	
+
 
 	//init obj
 	vecModels.push_back(MainModel);
 
 
 	P6::MyVector sample(0, 0, 0);
-	
-MainModel->Acceleration = P6::MyVector (0, -50, 0);
+
+	MainModel->Acceleration = P6::MyVector(0, -50, 0);
 	float velX, velY, velZ;
 	std::cout << "Velocity:\nX: ";
 	std::cin >> velX;
 	std::cout << "Y: ";
 	std::cin >> velY;
-	std::cout << "Y: ";
+	std::cout << "Z: ";
 	std::cin >> velZ;
 
 
-	MainModel->Velocity = P6::MyVector (velX, velY, velZ);
+	MainModel->Velocity = P6::MyVector(velX, velY, velZ);
 	//clock and var
 	using clock = std::chrono::high_resolution_clock;
 	auto curr_time = clock::now();
 	auto prev_time = curr_time;
 	std::chrono::nanoseconds curr_ns(0);
+	auto start_time = clock::now();
 
-	
-
-	
+	bool printFlag = false;
+	bool startFlag = false;
+	bool endFlag = false; //flags that check that the ball has entered the screen, then hit the ground
 
 	/* Loop until the user closes the window */
 	while (!glfwWindowShouldClose(window) && !close)
@@ -231,13 +233,33 @@ MainModel->Acceleration = P6::MyVector (0, -50, 0);
 
 		curr_ns += dur;
 
-		if (curr_ns >= timestep) {
-			//nano to millie
-			auto ms = std::chrono::duration_cast<std::chrono::milliseconds>(curr_ns);
+		if (curr_ns >= timestep && !endFlag) {
+			if (MainModel->y >= -8 && !startFlag) {
+				startFlag = true;
+			}
+
+
+				//nano to millie
+				auto ms = std::chrono::duration_cast<std::chrono::milliseconds>(curr_ns);
 			//reset
 			curr_ns -= curr_ns;
 
-			MainModel->Update((float)ms.count()/1000);
+			MainModel->Update((float)ms.count() / 1000);
+
+			if (MainModel->y <= -8 && startFlag) {
+				auto end_time = clock::now();
+				
+				if (!printFlag) {
+					std::cout << "Time to land: " << std::chrono::duration_cast<std::chrono::milliseconds>(end_time - start_time).count()/1000.0 << "s" << std::endl;
+					printFlag = true;
+				}
+
+				MainModel->y = -8;
+				MainModel->Acceleration = P6::MyVector(0, 0, 0);
+				MainModel->Velocity = P6::MyVector(0, 0, 0);
+
+
+			}
 		}
 		//end clock
 
@@ -247,7 +269,7 @@ MainModel->Acceleration = P6::MyVector (0, -50, 0);
 		//processes events depending on camtype
 	//	vecCameras[camType]->processEvents({ -2 * vecModels[0]->x,  -2 * vecModels[0]->y, -2*vecModels[0]->z }, MainModel->objDir);
 
-		
+
 		glDepthMask(GL_TRUE);
 		glDepthFunc(GL_LESS);
 
@@ -255,7 +277,7 @@ MainModel->Acceleration = P6::MyVector (0, -50, 0);
 		//pass all necessary drawing stuff to the objects draw, call all objects draw in vector
 		for (int i = 0; i < vecModels.size(); i++) {
 
-			
+
 			//std::cout << shaderCount << std::endl;
 			vecModels[i]->processEvents(identity_matrix4,
 				ShaderNormals->shaderProg,
