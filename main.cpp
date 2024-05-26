@@ -300,7 +300,7 @@ int main(void)
 
 	glfwTerminate();
 	std::cout << "\nPress any key to end the program: ";
-	getch();
+	_getch();
 
 	return 0;
 }
